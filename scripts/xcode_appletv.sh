@@ -13,8 +13,8 @@ BuildAppDebug() {
 
   if [[ "$debug_sim" == "true" ]]; then
     if [[ "$cpu_arch" == "arm64" ]]; then
-      DEVICE_TOOLS=$FLUTTER_LOCAL_ENGINE/out/ios_debug_sim_unopt_arm64/clang_x64
-    else  
+      DEVICE_TOOLS=$FLUTTER_LOCAL_ENGINE/out/ios_debug_sim_unopt_arm64/clang_arm64
+    else
       DEVICE_TOOLS=$FLUTTER_LOCAL_ENGINE/out/ios_debug_sim_unopt/clang_x64
     fi
   else
@@ -23,7 +23,7 @@ BuildAppDebug() {
 
   if [[ "$cpu_arch" == "arm64" ]]; then
     HOST_TOOLS=$FLUTTER_LOCAL_ENGINE/out/host_debug_unopt_arm64
-    gen_snapshot_command="$DEVICE_TOOLS/gen_snapshot_arm64"
+    gen_snapshot_command="$DEVICE_TOOLS/gen_snapshot"
   else
     HOST_TOOLS=$FLUTTER_LOCAL_ENGINE/out/host_debug_unopt
     gen_snapshot_command="$DEVICE_TOOLS/gen_snapshot"
@@ -51,8 +51,8 @@ BuildAppDebug() {
 
   echo " └─Compiling kernal"
 
-  "$HOST_TOOLS/dartaotruntime" \
-    "$HOST_TOOLS/gen/frontend_server_aot.dart.snapshot" \
+  "$HOST_TOOLS/dartaotruntime_product" \
+    "$HOST_TOOLS/frontend_server_aot_product.dart.snapshot" \
     --sdk-root "$HOST_TOOLS/flutter_patched_sdk" \
     --tfa --target=flutter \
     -DTV_MODE=ON \
@@ -174,8 +174,8 @@ BuildAppRelease() {
 
   echo " └─Compiling kernal"
 
-  "$HOST_TOOLS/dartaotruntime" -v \
-    "$HOST_TOOLS/gen/frontend_server_aot.dart.snapshot" \
+  "$HOST_TOOLS/dartaotruntime_product" -v \
+    "$HOST_TOOLS/frontend_server_aot_product.dart.snapshot" \
     --sdk-root "$HOST_TOOLS/flutter_patched_sdk" \
     --aot --tfa --target=flutter \
     -DTV_MODE=ON \
